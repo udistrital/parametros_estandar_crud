@@ -180,3 +180,45 @@ COMMENT ON COLUMN parametros_estandar.unidad.numero_orden IS 'En dado caso que s
 COMMENT ON COLUMN parametros_estandar.unidad.tipo_unidad_id IS 'Identificador unico de la tabla tipo_unidad.';
 COMMENT ON COLUMN parametros_estandar.unidad.fecha_creacion IS 'Fecha y hora de la creación del registro en la BD.';
 COMMENT ON COLUMN parametros_estandar.unidad.fecha_modificacion IS 'Fecha y hora de la ultima modificación del registro en la BD.';
+
+
+-Tabla periodo
+
+CREATE SEQUENCE parametros_estandar.periodo_id_seq
+	INCREMENT BY 1 
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+
+CREATE TABLE parametros_estandar.periodo(
+	id integer NOT NULL DEFAULT nextval('parametros_estandar.periodo_id_seq'::regclass),
+    nombre character varying(100) NOT NULL,
+	descripcion character varying(100),
+	year integer,
+	ciclo character varying(4),
+	codigo_abreviacion character varying(20),
+	activo boolean NOT NULL,
+	aplicacion_id integer NOT NULL,
+	unidad_id integer NOT NULL,
+	fecha_creacion TIMESTAMP NOT NULL,
+	fecha_modificacion TIMESTAMP NOT NULL,
+	CONSTRAINT pk_periodo PRIMARY KEY (id),
+	CONSTRAINT fk_unidad_periodo FOREIGN KEY (unidad_id) REFERENCES parametros_estandar.unidad(id)
+);
+COMMENT ON TABLE parametros_estandar.periodo IS 'Tabla que parametriza los diferentes tipos de periodo asociados a un negocio/aplicacion y al tipo de unidad de tiempo que duran Ej: Bimestre, Semestre entre otros.';
+COMMENT ON COLUMN parametros_estandar.periodo.id IS 'Identificador unico de la tabla unidad.';
+COMMENT ON COLUMN parametros_estandar.periodo.nombre IS 'Campo obligatorio de la tabla que indica el nombre del parámetro.';
+COMMENT ON COLUMN parametros_estandar.periodo.descripcion IS 'Campo en el que se puede registrar una descripcion de la informacion del periodo.';
+COMMENT ON COLUMN parametros_estandar.periodo.year IS 'Campo que indica el año para el cual es vigente el periodo.';
+COMMENT ON COLUMN parametros_estandar.periodo.ciclo IS 'Campo que permite llevar un control de los diferentes periodos que puede tener un año para determiando negocio EJ: Periodos academicos 2020-1, 2020-2, 2020-3.';
+COMMENT ON COLUMN parametros_estandar.periodo.codigo_abreviacion IS 'Código de abreviación, sigla, acrónimo u otra representación corta del registro si se requiere.';
+COMMENT ON COLUMN parametros_estandar.periodo.activo IS 'Valor booleano para indicar si el registro esta activo o inactivo.';
+COMMENT ON COLUMN parametros_estandar.periodo.aplicacion_id IS 'Identificador unico de la tabla aplicacion del esquema configuracion, define el contexto y el negocio en el que se usa el periodo de vigencia.';
+COMMENT ON COLUMN parametros_estandar.periodo.unidad_id IS 'Identificador unico de la tabla unidad, define el periodo de tiempo que se usara Ejemplo: Bimestre, Trimestre, Semestre.';
+COMMENT ON COLUMN parametros_estandar.periodo.fecha_creacion IS 'Fecha y hora de la creación del registro en la BD.';
+COMMENT ON COLUMN parametros_estandar.periodo.fecha_modificacion IS 'Fecha y hora de la ultima modificación del registro en la BD.';
+
+
