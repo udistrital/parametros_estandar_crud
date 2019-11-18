@@ -1,3 +1,3 @@
 # parametros_estandar_crud
-.._./
+...._./
 
